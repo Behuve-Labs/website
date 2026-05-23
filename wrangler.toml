@@ -9,4 +9,4 @@ pages_build_output_dir = "."
 [[d1_databases]]
 binding = "DB"
 database_name = "behuve-db"
-database_id = "REPLACE_AFTER_wrangler_d1_create"
+database_id = "b08d3821-0e0b-472e-bbd5-d642e6988df2"
