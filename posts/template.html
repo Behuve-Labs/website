@@ -47,6 +47,9 @@
       <span class="post-type">Paper Note</span>
       <span class="post-date">[Month YYYY]</span>
       <span class="post-author">— [Your Name]</span>
+      <!-- data-slug must match the post's filename without .html -->
+      <span id="behuve-social" data-slug="[slug — match filename without .html]"></span>
+      <script src="social.js"></script>
     </div>
 
     <!--
@@ -172,6 +175,13 @@
     </p>
 
   </article>
+
+  <!-- ============================================================
+       COMMENTS
+       data-slug must match the post's filename without .html
+       ============================================================ -->
+  <section id="behuve-comments" data-slug="[slug — match filename without .html]"></section>
+  <script src="comments.js"></script>
 
   <!-- ============================================================
        POST FOOTER

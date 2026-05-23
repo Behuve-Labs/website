@@ -1,0 +1,12 @@
+name = "behuve"
+compatibility_date = "2024-09-01"
+pages_build_output_dir = "."
+
+# D1 binding — exposed in Functions as `env.DB`.
+# After running `wrangler d1 create behuve-db`, paste the returned
+# `database_id` value below. Local dev uses a local SQLite file
+# automatically; this ID is only consulted for production deploys.
+[[d1_databases]]
+binding = "DB"
+database_name = "behuve-db"
+database_id = "REPLACE_AFTER_wrangler_d1_create"

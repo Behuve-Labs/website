@@ -1,0 +1,20 @@
+# Copy this file to `.dev.vars` (gitignored) and fill in real values.
+# Wrangler reads .dev.vars automatically when you run `wrangler pages dev`.
+
+# Seed used when hashing visitor identity (IP + UA + this) for like dedup.
+# Any random string is fine — generate one with: openssl rand -hex 32
+DAILY_SALT_SEED="dev-replace-with-random-string"
+
+# JWT signing key (HS256). Generate with: openssl rand -hex 32
+# Must be ≥ 32 chars. Rotating this invalidates every existing session.
+JWT_SECRET="dev-replace-with-random-32-byte-hex"
+
+# GitHub OAuth App (github.com/settings/developers)
+# Dev callback URL: http://localhost:3000/api/auth/callback/github
+GITHUB_CLIENT_ID="..."
+GITHUB_CLIENT_SECRET="..."
+
+# Google OAuth Client (console.cloud.google.com → Credentials)
+# Dev redirect URI: http://localhost:3000/api/auth/callback/google
+GOOGLE_CLIENT_ID="..."
+GOOGLE_CLIENT_SECRET="..."
