@@ -15,8 +15,9 @@
   --font-sans: 'Geist', 'Helvetica Neue', sans-serif;
   --font-mono: 'Geist Mono', 'Fira Code', monospace;
 
-  --max: 1100px;
+  --max: 900px;
   --col: 680px;
+  --pad: max(56px, calc((100% - var(--max)) / 2));
 }
 
 /* ============================================================
@@ -47,7 +48,7 @@ nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 24px 56px;
+  padding: 24px var(--pad);
   background: transparent;
   transition: background 0.3s, border-color 0.3s;
   border-bottom: 1px solid transparent;
@@ -90,11 +91,11 @@ nav.scrolled {
    ============================================================ */
 .hero {
   position: relative;
-  height: 100vh;
-  min-height: 640px;
+  height: 52vh;
+  min-height: 420px;
   display: flex;
   align-items: flex-end;
-  padding: 0 56px 96px;
+  padding: 0 var(--pad) 64px;
   overflow: hidden;
 }
 
@@ -111,45 +112,71 @@ canvas#hero-canvas {
   max-width: 780px;
 }
 
-.hero-label {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 28px;
-  opacity: 0;
-  animation: fadeUp 0.7s 0.2s forwards;
-}
-
 .hero-headline {
   font-size: clamp(42px, 6vw, 80px);
   font-weight: 300;
   line-height: 1.08;
   letter-spacing: -0.02em;
   color: var(--text);
-  margin-bottom: 28px;
+  margin-bottom: 16px;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.2s forwards;
+}
+
+.hero-sub {
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--text-muted);
+  margin-bottom: 20px;
   opacity: 0;
   animation: fadeUp 0.8s 0.4s forwards;
 }
 
-.hero-headline .accent { color: var(--accent); }
-
-.hero-sub {
-  font-size: 15px;
-  font-weight: 300;
-  line-height: 1.75;
-  color: var(--text-muted);
-  max-width: 440px;
+.hero-about {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+  text-decoration: none;
+  text-underline-offset: 3px;
   opacity: 0;
   animation: fadeUp 0.8s 0.6s forwards;
+  transition: text-decoration-color 0.2s, opacity 0.2s;
 }
+
+.hero-about:hover {
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  opacity: 0.75;
+}
+
+.accent { color: var(--accent); }
+
+/* ============================================================
+   ABOUT TEASER
+   ============================================================ */
+.about-teaser {
+  padding: 0 var(--pad);
+  margin: 40px 0 0;
+}
+
+.about-teaser a {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--text-dim);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.about-teaser a:hover { color: var(--accent); }
 
 /* ============================================================
    SHARED SECTION CHROME
    ============================================================ */
 section {
-  padding: 120px 56px;
+  padding: 80px var(--pad);
   border-top: 1px solid var(--border);
 }
 
@@ -239,97 +266,84 @@ section {
 /* ============================================================
    POSTS
    ============================================================ */
+.writing-section { padding-top: 64px; }
+
 .post-list {
   display: flex;
   flex-direction: column;
 }
 
 .post-row {
-  display: grid;
-  grid-template-columns: 72px 1fr auto;
-  align-items: center;
-  padding: 28px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 40px 0;
   border-bottom: 1px solid var(--border);
-  gap: 0;
-  transition: color 0.15s;
   text-decoration: none;
+  color: inherit;
 }
 .post-row:first-child { border-top: 1px solid var(--border); }
 
 .post-row:hover .post-row-title { color: var(--accent); }
-.post-row:hover .post-row-arrow { transform: translateX(4px); color: var(--accent); }
 
-/* dim out coming-soon rows */
 .post-row.coming-soon {
   pointer-events: none;
   opacity: 0.4;
 }
 
-.post-row-tag {
-  font-family: var(--font-mono);
-  font-size: 9px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--text-dim);
-  padding-right: 16px;
-}
-
-.post-row-tag.tag-tool     { color: var(--text-dim); }
-.post-row-tag.tag-analysis { color: var(--text-dim); }
-.post-row-tag.tag-reference { color: var(--text-dim); }
-
 .post-row-title {
-  font-size: 17px;
+  font-size: 22px;
   font-weight: 400;
   color: var(--text);
-  line-height: 1.4;
-  letter-spacing: -0.01em;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
   transition: color 0.2s;
-}
-
-.post-row-sub {
-  display: block;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--text-dim);
-  margin-top: 5px;
-  font-weight: 300;
-}
-
-.post-row-right {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  flex-shrink: 0;
-  padding-left: 32px;
 }
 
 .post-row-date {
   font-family: var(--font-mono);
   font-size: 11px;
   color: var(--text-dim);
-  white-space: nowrap;
 }
 
-.post-row-arrow {
+.post-row-desc {
+  font-size: 15px;
   color: var(--text-dim);
-  font-size: 14px;
-  transition: transform 0.2s, color 0.2s;
+  line-height: 1.75;
+  font-weight: 300;
 }
+
+.post-row-tags {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.post-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  padding: 3px 9px;
+  border-radius: 3px;
+}
+
+.tag-security { background: rgba(232, 112, 90, 0.12); color: #e8705a; }
+.tag-systems  { background: rgba(56, 182, 255, 0.12);  color: #38b6ff; }
+.tag-hardware { background: rgba(111, 186, 138, 0.12); color: #6fba8a; }
+.tag-ai       { background: rgba(155, 142, 196, 0.12); color: #9b8ec4; }
 
 /* ============================================================
    CONTACT — Option A (two-column)
    ============================================================ */
 .contact-section {
-  padding: 120px 56px;
+  padding: 80px var(--pad);
   border-top: 1px solid var(--border);
 }
 
 .contact-inner {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 80px;
-  align-items: start;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
 }
 
 .contact-headline {
@@ -376,7 +390,7 @@ section {
    FOOTER
    ============================================================ */
 footer {
-  padding: 28px 56px;
+  padding: 28px var(--pad);
   border-top: 1px solid var(--border);
   display: flex;
   justify-content: space-between;
@@ -409,19 +423,19 @@ footer a:hover { color: var(--text); }
    RESPONSIVE
    ============================================================ */
 @media (max-width: 900px) {
+  :root { --pad: 24px; }
   nav { padding: 20px 24px; }
   .nav-links { gap: 24px; }
   section { padding: 80px 24px; }
   .contact-section { padding: 80px 24px; }
   .hero { padding: 0 24px 72px; }
-  .contact-inner { grid-template-columns: 1fr; gap: 48px; }
-  .post-row { grid-template-columns: 60px 1fr auto; }
-  .post-row-right { padding-left: 16px; }
+  .contact-inner { gap: 28px; }
+  .post-row { padding: 32px 0; }
+  .post-row-title { font-size: 19px; }
 }
 
 @media (max-width: 600px) {
-  .post-row { grid-template-columns: 56px 1fr; }
-  .post-row-right { display: none; }
+  .post-row-desc { font-size: 14px; }
 }
 
 @media (max-width: 500px) {
