@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mitigating Post-Exploitation Scope Through Syscall Filtering — Behuve</title>
+  <link rel="icon" href="../icon.png" />
+  <link rel="stylesheet" href="post-style.css" />
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="../index.html">Behuve</a>
+  <a class="nav-back" href="../index.html#posts">← All posts</a>
+</nav>
+
+<main>
+
+  <header class="post-header">
+    <div class="post-meta">
+      <span class="post-type">Paper Note</span>
+      <span class="post-date">May 2026</span>
+      <span id="behuve-social" data-slug="post-2"></span>
+      <script src="social.js"></script>
+    </div>
+    <h1 class="post-title">Mitigating Post-Exploitation Scope Through Syscall Filtering</h1>
+    <p class="post-subtitle">
+      The exploit worked. So what?
+    </p>
+  </header>
+
+  <aside class="paper-card">
+    <div class="paper-card-row">
+      <span class="paper-card-label">Paper</span>
+      <span class="paper-card-value">Automating Seccomp Filter Generation for Linux Applications</span>
+    </div>
+    <div class="paper-card-row">
+      <span class="paper-card-label">Authors</span>
+      <span class="paper-card-value">Claudio Canella, Mario Werner, Daniel Gruss, Michael Schwarz</span>
+    </div>
+    <div class="paper-card-row">
+      <span class="paper-card-label">Venue</span>
+      <span class="paper-card-value">CCSW · ACM CCS · 2021</span>
+    </div>
+    <div class="paper-card-row">
+      <span class="paper-card-label">Link</span>
+      <span class="paper-card-value">
+        <a href="https://www.cc0x1f.net/publications/chestnut.pdf" target="_blank" rel="noopener noreferrer">PDF</a>
+      </span>
+    </div>
+    <div class="paper-card-row">
+      <span class="paper-card-label">TL;DR</span>
+      <span class="paper-card-value">Chestnut auto-generates tight <code>seccomp-bpf</code> allowlists by statically analyzing source and binaries, blocking 82.5% of syscalls on average without developer effort.</span>
+    </div>
+  </aside>
+
+  <article class="post-body">
+
+    <p>Post-exploitation, from a defensive perspective, involves limiting attackers' access to program resources. The threat model assumes that a program is exploitable, but that the attacker's post-exploitation strategy requires additional resources within the program. Systematically restricting those resources is the goal of sandboxing.</p>
+
+    <p>For example, in a Java program, removing unnecessary classes and functions reduces the number of functions in an attacker's toolbox. The same applies for libraries: removing unused functionality from a program's dependencies reduces the risk that, post-exploitation, that functionality could be used for lateral movement or privilege escalation.</p>
+
+    <p>Removing unused code helps, but an attacker who controls the process can still ask the kernel for anything the program is allowed to do.</p>
+
+    <h2>Enter the Kernel</h2>
+
+    <p>The kernel is the gatekeeper for fundamental hardware functionality. Userspace applications don't touch silicon directly. When a program wants to create a network socket, open a file, or spawn a process, they have to ask the kernel. This occurs via a system call (syscall).</p>
+
+    <p>Depending on the instruction set architecture and OS, systems can have hundreds of syscalls, but most programs use only a few. A text editor has no business making network connections, and if it's trying to use that kernel functionality, the program has likely been exploited, and the system call should be denied.</p>
+
+    <p><code>seccomp-bpf</code>, a name stemming from "secure computing" and "Berkeley Packet Filtering," is the Linux tool used to create an allowlist of usable syscalls while blacklisting everything else. Applying it is simple, but determining which system calls to allow is the real challenge.</p>
+
+    <p>Chestnut (<a href="https://www.cc0x1f.net/publications/chestnut.pdf" target="_blank" rel="noopener noreferrer">paper</a>, <a href="https://github.com/isec-tugraz/Chestnut" target="_blank" rel="noopener noreferrer">repo</a>), a tool developed by Canella et al., statically analyzes the source code and the program binary to generate a list of system calls, and uses dynamic profiling to refine the list.</p>
+
+    <p>It works pretty well. According to the paper, "Chestnut on average blocks 302 syscalls (86.5%) via the compiler and 288 (82.5%) using the binary analysis on a set of 18 applications." Blocking 82.5% of syscalls on average is massive for reducing the potential of misuse.</p>
+
+    <h2>The Catch</h2>
+
+    <p>Flat system call restriction misses a great deal of context. Actions that are necessary can still be used maliciously. For example, if your program needs to call the <code>read</code> syscall to read <code>/home/user/data.txt</code>, it can also <code>read</code> <code>/etc/passwd</code>.</p>
+
+    <p>Questions like "what are we reading?" and "what arguments are we executing this system call on?" are ignored when generating lists and restricting their functionality using <code>seccomp-bpf</code>.</p>
+
+    <h2>Follow Threads</h2>
+
+    <p>The Chestnut paper discusses related work and potential ideas to build upon Chestnut, including adding arguments to <code>seccomp-bpf</code>, coverage-guided fuzzing, or adding an authentication step to each system call.</p>
+
+    <p>There is a whole family of projects pursuing kernel sandboxing, including
+      <a href="https://github.com/multikernel/sandlock" target="_blank" rel="noopener noreferrer">Sandlock</a>,
+      <a href="https://www.usenix.org/conference/raid2020/presentation/ghavanmnia" target="_blank" rel="noopener noreferrer">Confine</a>,
+      <a href="https://www.usenix.org/conference/raid2020/presentation/demarinis" target="_blank" rel="noopener noreferrer">Sysfilter</a>,
+      <a href="https://www.researchgate.net/publication/318145289_SPEAKER_Split-Phase_Execution_of_Application_Containers" target="_blank" rel="noopener noreferrer">Speaker</a>,
+      <a href="https://arxiv.org/abs/2204.06131" target="_blank" rel="noopener noreferrer">Timeloops</a>,
+      <a href="https://podman.io" target="_blank" rel="noopener noreferrer">Podman</a>,
+      <a href="https://github.com/draios/sysdig" target="_blank" rel="noopener noreferrer">Sysdig</a>,
+      <a href="https://dl.acm.org/doi/fullHtml/10.1145/3545948.3545978" target="_blank" rel="noopener noreferrer">Decap</a>,
+      <a href="https://arxiv.org/abs/2510.03720" target="_blank" rel="noopener noreferrer">Sysverify</a>, and
+      <a href="https://github.com/sysflow-telemetry/upolicycraft" target="_blank" rel="noopener noreferrer">µPolicyCraft</a>.
+      Each is pursuing the problem from a different angle.
+    </p>
+
+    <p>The problem space is moving from "which syscalls should we allow" to "under which conditions should these syscalls be allowed," and that's a much harder question to answer.</p>
+
+  </article>
+
+  <section id="behuve-comments" data-slug="post-2"></section>
+  <script src="comments.js"></script>
+
+  <div class="post-footer">
+    <a href="../index.html#posts">← All posts</a>
+    <span style="font-family: var(--font-mono); font-size: 11px; color: var(--text-dim);">
+      May 2026 · Behuve
+    </span>
+  </div>
+
+</main>
+
+<footer>
+  <span>© 2026 Behuve</span>
+  <span class="footer-legal">
+    <a href="../privacy.html">Privacy</a>
+    <a href="../tos.html">Terms</a>
+  </span>
+</footer>
+
+</body>
+</html>

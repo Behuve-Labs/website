@@ -41,7 +41,7 @@
     </div>
     <div class="paper-card-row">
       <span class="paper-card-label">Venue</span>
-      <span class="paper-card-value">USENIX HotSec · 2008</span>
+      <span class="paper-card-value">Stanford Technical Report · 2008</span>
     </div>
     <div class="paper-card-row">
       <span class="paper-card-label">Link</span>
@@ -59,20 +59,19 @@
 
     <p>Chromium's architecture was designed to protect a user's OS from malicious websites. It is not designed to protect websites from each other.</p>
 
-    <blockquote>For example, if attacker.com compromises the rendering engine, they can ask the browser kernel for bank.com's data and receive it.</blockquote>
+    <p>For example, if attacker.com compromises the rendering engine, they can ask the browser kernel for bank.com's data and receive it.</p>
 
     <p>The 2008 security architecture paper identifies origin isolation as a limitation: it was enforced by the rendering engine rather than the browser kernel.</p>
 
-    <p>Quick definition:</p>
-    <blockquote><strong>same-origin policy (SOP):</strong> the concept that an origin on the web (a host, a port, and a scheme) should only be able to read its own data, not that of other websites.</blockquote>
+    <div class="callout">same-origin policy (SOP): the concept that an origin on the web (a host, a port, and a scheme) should only be able to read its own data, not that of other websites.</div>
 
     <h2>How It Works</h2>
 
     <p>Chromium's security architecture consists of two parts:</p>
 
-    <blockquote><strong>Browser kernel:</strong> interacts with the user's OS and handles tasks such as file uploads, downloads, keystrokes, and displaying webpages on the monitor.</blockquote>
+    <div class="callout">Browser kernel: interacts with the user's OS and handles tasks such as file uploads, downloads, keystrokes, and displaying webpages on the monitor.</div>
 
-    <blockquote><strong>Rendering engine:</strong> interacts directly with web applications and calls the browser kernel API when it needs to interact with the user's operating system.</blockquote>
+    <div class="callout">Rendering engine: interacts directly with web applications and calls the browser kernel API when it needs to interact with the user's operating system.</div>
 
     <p>The security implication is that the web application has no direct interface with the filesystem. If a user wishes to download a file, the web application and rendering engine send a request to the browser kernel to enable the download, rather than doing it directly. The browser kernel displays and manages the UI for the user to download the file, and its interface is designed with transparency in mind.</p>
 

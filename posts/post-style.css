@@ -599,6 +599,23 @@ figcaption {
 }
 .post-footer a:hover { color: var(--accent); }
 
+/* ── ABOUT PAGE CONTACT BLOCK ── */
+.contact-block {
+  display: flex;
+  gap: 28px;
+  margin-top: 36px;
+}
+
+.contact-block a {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text-dim);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.contact-block a:hover { color: var(--accent); }
+
 /* ── SITE FOOTER ── */
 footer {
   padding: 24px 56px;
