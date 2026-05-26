@@ -386,6 +386,10 @@ footer {
   color: var(--text-dim);
 }
 
+footer a { color: var(--text-dim); text-decoration: none; }
+footer a:hover { color: var(--text); }
+.footer-legal { display: flex; gap: 20px; }
+
 /* ============================================================
    REVEAL ANIMATION
    ============================================================ */

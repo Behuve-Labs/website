@@ -1,4 +1,4 @@
--- Behuve Research — D1 schema
+-- Behuve — D1 schema
 -- Apply locally:  wrangler d1 execute behuve-db --local --file=schema.sql
 -- Apply to prod:  wrangler d1 execute behuve-db --remote --file=schema.sql
 
@@ -16,6 +16,13 @@ CREATE TABLE IF NOT EXISTS likes (
 );
 
 CREATE INDEX IF NOT EXISTS idx_likes_slug ON likes(slug);
+
+CREATE TABLE IF NOT EXISTS views (
+  slug          TEXT    NOT NULL,
+  visitor_hash  TEXT    NOT NULL,
+  view_date     TEXT    NOT NULL,   -- ISO date YYYY-MM-DD (UTC)
+  PRIMARY KEY (slug, visitor_hash, view_date)
+);
 
 -- Phase 3: lightweight users. Email is the stable identity across providers;
 -- display_name is whatever the OAuth provider gave us (GitHub username, Google
