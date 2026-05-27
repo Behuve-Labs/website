@@ -50,7 +50,7 @@
     </div>
     <div class="paper-card-row">
       <span class="paper-card-label">TL;DR</span>
-      <span class="paper-card-value">Chestnut auto-generates tight <code>seccomp-bpf</code> allowlists by statically analyzing source and binaries, blocking 82.5% of syscalls on average without developer effort.</span>
+      <span class="paper-card-value">Chestnut auto-generates tight <code>seccomp-bpf</code> allowlists by statically analyzing source and binaries, blocking up to 86.5% of syscalls (82.5% via binary analysis) without developer effort.</span>
     </div>
   </aside>
 
@@ -70,7 +70,7 @@
 
     <img class="post-img" src="../assets/post-2/syscalls.png" alt="Syscall filtering diagram" />
 
-    <p><code>seccomp-bpf</code>, a name stemming from "secure computing" and "Berkeley Packet Filtering," is the Linux tool used to create an allowlist of usable syscalls while blacklisting everything else. Applying it is simple, but determining which system calls to allow is the real challenge.</p>
+    <p><code>seccomp-bpf</code>, a name stemming from "secure computing" and "Berkeley Packet Filtering," is the Linux tool used to create an allowlist of usable syscalls while denylisting everything else. Applying it is simple, but determining which system calls to allow is the real challenge.</p>
 
     <p>Chestnut (<a href="https://www.cc0x1f.net/publications/chestnut.pdf" target="_blank" rel="noopener noreferrer">paper</a>, <a href="https://github.com/isec-tugraz/Chestnut" target="_blank" rel="noopener noreferrer">repo</a>), a tool developed by Canella et al., statically analyzes the source code and the program binary to generate a list of system calls, and uses dynamic profiling to refine the list.</p>
 
