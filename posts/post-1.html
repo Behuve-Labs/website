@@ -73,6 +73,8 @@
 
     <div class="callout">Rendering engine: interacts directly with web applications and calls the browser kernel API when it needs to interact with the user's operating system.</div>
 
+    <img class="post-img" src="../assets/post-1/browser.png" alt="Chrome architecture diagram" />
+
     <p>The security implication is that the web application has no direct interface with the filesystem. If a user wishes to download a file, the web application and rendering engine send a request to the browser kernel to enable the download, rather than doing it directly. The browser kernel displays and manages the UI for the user to download the file, and its interface is designed with transparency in mind.</p>
 
     <p>The design goal is to make it clear what the user is downloading and that they consent to the interaction, rather than allowing a compromised rendering engine to download in the background without the user's awareness. This doesn't block potentially malicious downloads, but it enforces security through visibility.</p>

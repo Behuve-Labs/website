@@ -637,3 +637,60 @@ footer a:hover { color: var(--text); }
   main { padding: 40px 20px 72px; }
   footer { padding: 20px; }
 }
+
+/* ── POST IMAGE ── */
+.post-img {
+  width: 100%;
+  display: block;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  margin: 40px 0;
+}
+
+/* ── FOUNDERS ── */
+.founders {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  margin: 40px 0;
+}
+
+.founder-photo {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  display: block;
+}
+
+.founder-placeholder {
+  background: var(--bg-card);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text-dim);
+  letter-spacing: 0.08em;
+}
+
+.founder-name {
+  margin-top: 12px;
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--text);
+}
+
+.founder-email {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.founder-email:hover { color: var(--accent); }
+
+@media (max-width: 560px) {
+  .founders { grid-template-columns: 1fr; }
+}

@@ -291,6 +291,15 @@ section {
   opacity: 0.4;
 }
 
+.post-row-img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  display: block;
+}
+
 .post-row-title {
   font-size: 22px;
   font-weight: 400;
@@ -329,7 +338,8 @@ section {
 
 .tag-security { background: rgba(232, 112, 90, 0.12); color: #e8705a; }
 .tag-systems  { background: rgba(56, 182, 255, 0.12);  color: #38b6ff; }
-.tag-hardware { background: rgba(111, 186, 138, 0.12); color: #6fba8a; }
+.tag-web      { background: rgba(111, 186, 138, 0.12); color: #6fba8a; }
+.tag-hardware { background: rgba(255, 196, 84, 0.12);  color: #ffc454; }
 .tag-ai       { background: rgba(155, 142, 196, 0.12); color: #9b8ec4; }
 
 /* ============================================================

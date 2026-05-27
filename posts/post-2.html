@@ -68,6 +68,8 @@
 
     <p>Depending on the instruction set architecture and OS, systems can have hundreds of syscalls, but most programs use only a few. A text editor has no business making network connections, and if it's trying to use that kernel functionality, the program has likely been exploited, and the system call should be denied.</p>
 
+    <img class="post-img" src="../assets/post-2/syscalls.png" alt="Syscall filtering diagram" />
+
     <p><code>seccomp-bpf</code>, a name stemming from "secure computing" and "Berkeley Packet Filtering," is the Linux tool used to create an allowlist of usable syscalls while blacklisting everything else. Applying it is simple, but determining which system calls to allow is the real challenge.</p>
 
     <p>Chestnut (<a href="https://www.cc0x1f.net/publications/chestnut.pdf" target="_blank" rel="noopener noreferrer">paper</a>, <a href="https://github.com/isec-tugraz/Chestnut" target="_blank" rel="noopener noreferrer">repo</a>), a tool developed by Canella et al., statically analyzes the source code and the program binary to generate a list of system calls, and uses dynamic profiling to refine the list.</p>
