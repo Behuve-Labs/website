@@ -6,14 +6,14 @@
   <title>Behuve</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500&family=Geist+Mono:wght@300;400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Righteous&family=Geist:wght@300;400;500&family=Geist+Mono:wght@300;400&display=swap" rel="stylesheet" />
   <link rel="icon" href="icon.png" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
 <nav>
-  <a class="nav-logo" href="index.html">Behuve</a>
+  <a class="nav-logo" href="index.html"><img src="icon.png" class="nav-icon" alt="" />Behuve</a>
   <ul class="nav-links">
     <li><a href="#posts">Posts</a></li>
     <li><a href="about.html">About</a></li>
@@ -34,6 +34,33 @@
 
   <div class="post-list">
 
+    <a class="post-row reveal" href="posts/post-6.html">
+      <img class="post-row-img" src="assets/post-6/post6.png" alt="Control-flow integrity diagram" />
+      <div class="post-row-body">
+        <span class="post-row-title">Review of Control-Flow Integrity Solutions for Agents</span>
+        <span class="post-row-date">June 16, 2026 · Noah Wong</span>
+        <span class="post-row-desc">In 1977, Denning &amp; Denning published Certification of Programs for Secure Information Flow, which laid out the Lattice Model of Information Flow. Essentially, each piece of data was given a security class...</span>
+        <div class="post-row-tags">
+          <span class="post-tag tag-security">security</span>
+          <span class="post-tag">agents</span>
+        </div>
+      </div>
+    </a>
+
+    <a class="post-row reveal" href="posts/post-5.html">
+      <!-- Thumbnail placeholder — drop your image at assets/post-5/thumbnail.png -->
+      <img class="post-row-img" src="assets/post-5/drift.png" alt="DRIFT architecture diagram" />
+      <div class="post-row-body">
+        <span class="post-row-title">Dynamic Plan Validation and Injection Isolation Against Prompt Injection</span>
+        <span class="post-row-date">June 11, 2026 · Arnav Tripathy</span>
+        <span class="post-row-desc">CaMeL, despite its thoroughness, has been shown to be incredibly expensive to implement on a large scale. Another problem that I didn't foresee until reading about DRIFT was the inflexibility of the system; security policies were static, unmoving...</span>
+        <div class="post-row-tags">
+          <span class="post-tag tag-security">security</span>
+          <span class="post-tag">agents</span>
+        </div>
+      </div>
+    </a>
+
     <a class="post-row reveal" href="posts/post-4.html">
       <img class="post-row-img" src="assets/post-4/agentdojo.png" alt="AgentDojo benchmark diagram" />
       <div class="post-row-body">
@@ -42,6 +69,20 @@
         <span class="post-row-desc">In Von Neumann computer architecture, instructions and data were the same thing: bits. Instructions and data were together in memory, and there was no architectural distinction. Developed during the same era, the Harvard computer architecture separated instruction...</span>
         <div class="post-row-tags">
           <span class="post-tag">security</span>
+          <span class="post-tag">agents</span>
+        </div>
+      </div>
+    </a>
+
+    <a class="post-row reveal" href="posts/post-3.html">
+      <!-- Thumbnail placeholder — drop your image at assets/post-3/thumbnail.png -->
+      <img class="post-row-img" src="assets/post-3/camel.png" alt="CaMeL architecture diagram" />
+      <div class="post-row-body">
+        <span class="post-row-title">Capability-Based Data Flow Enforcement Against Prompt Injection</span>
+        <span class="post-row-date">June 9, 2026 · Arnav Tripathy</span>
+        <span class="post-row-desc">The release of Anthropic's Fable 5 is interesting in that it doesn't let the powerful model handle all the tasks on its own; for topics like cybersecurity or biology, where "state-of-the-art" knowledge could be misused, Fable automatically hands off queries to the weaker Opus 4.8...</span>
+        <div class="post-row-tags">
+          <span class="post-tag tag-security">security</span>
           <span class="post-tag">agents</span>
         </div>
       </div>

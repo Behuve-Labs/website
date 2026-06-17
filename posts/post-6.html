@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Review of Control-Flow Integrity Solutions for Agents — Behuve</title>
+  <link rel="icon" href="../icon.png" />
+  <link rel="stylesheet" href="post-style.css" />
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="../index.html">Behuve</a>
+  <a class="nav-back" href="../index.html">← Home</a>
+</nav>
+
+<main>
+
+  <header class="post-header">
+    <div class="post-meta">
+      <span class="post-type">Review</span>
+      <span class="post-date">June 16, 2026</span>
+      <span class="post-author">Noah Wong</span>
+      <span id="behuve-social" data-slug="post-6"></span>
+      <script src="social.js"></script>
+    </div>
+    <h1 class="post-title">Review of Control-Flow Integrity Solutions for Agents</h1>
+    <p class="post-subtitle">It's all about the flow.</p>
+  </header>
+
+  <article class="post-body">
+
+    <!-- ── SECTION: Foundations ─────────────────────────────────── -->
+    <h2 style="border-top: none;">Foundations</h2>
+
+    <p>
+      In 1977, Denning &amp; Denning published Certification of Programs for Secure Information Flow, which laid out the Lattice Model of Information Flow. Essentially, each piece of data was given a security class. This could be as simple as H for high (sensitive info) and L (not sensitive info), or there could be many sub-tiers. [1]
+    </p>
+
+    <p>
+      Information flows in a lattice-like structure, and if we can map out the flow of data transfer, we can make sure that a piece of sensitive info (e.g. a password) cannot make its way onto a lower-class variable (e.g. a piece of text that will be displayed publicly).
+    </p>
+
+    <p>
+      The rule governs information flow: data may only flow to variables at an equal or higher security class, never downward to a less-sensitive one. This prevents sensitive data from leaking into less-restricted contexts. The paper presented a general theoretical framework for programs; one of its contributions was showing that these flow rules could be checked statically rather than at runtime. This concept laid the framework for future security research regarding agents.
+    </p>
+
+    <img class="post-img" src="../assets/post-6/post6.png" alt="AgentArmor architecture diagram" />
+
+    <!-- ── SECTION: Prompt Injections ───────────────────────────── -->
+    <h2>Prompt Injections</h2>
+
+    <p>
+      FIDES (Flow Integrity Deterministic Enforcement System) by Costa et al., 2025 takes this idea and applies it to LLM security. [2]
+    </p>
+
+    <p>
+      FIDES attaches security labels to all data. For example, data from a user's own query is labeled Trusted (T), while data retrieved from an external webpage or a random email is labeled Untrusted (U).
+    </p>
+
+    <p>
+      When a tool retrieves untrusted or confidential data, FIDES automatically hides that content inside a variable rather than feeding the raw text directly into the main LLM's conversation history. This prevents the untrusted data from "tainting" the agent's main planning loop.
+    </p>
+
+    <p>
+      If the agent absolutely needs to know what is inside an untrusted variable to make a decision, it passes it to an isolated, "quarantined" LLM. This secondary LLM uses constrained decoding to extract only specific, structured formats (like a simple True/False or an exact data type), which severely restricts an attacker's ability to execute a prompt injection payload.
+      Before any consequential tool is executed (like sending an email or deleting a file), a policy engine checks the data labels. If a command was influenced by an untrusted (U) context, the action is blocked.
+    </p>
+
+    <!-- ── SECTION: Separating planning and execution ────────────── -->
+    <h2>Separating planning and execution</h2>
+
+    <p>
+      f-secure by Wu et al., 2024 also labels data as trusted or untrusted, and it splits the LLM architecture into two components: [3]
+    </p>
+
+    <p>LLM-Based Planner: This component is responsible for analyzing the user's query and generating the next atomic operational step. The planner is completely isolated and is only allowed to see trusted information.</p>
+
+    <p>Rule-Based Executor: This component receives the planned step and runs it deterministically using external tools or facilities (like email or filesystem access). The executor has access to all data sources, including untrusted ones.</p>
+
+    <p>
+      Again, the system assumes that user input is trusted (T).
+      Instead of restricting what the agent can do ahead of time, a Security Monitor strictly regulates what the Planner is allowed to see. When the execution of a step yields data, that data is stored in temporary memory. When the Planner attempts to generate the next step, the Security Monitor intercepts the data flow. If the data is labeled Untrusted, the Security Monitor blocks it from being loaded into the Planner's context window.
+    </p>
+
+    <!-- ── SECTION: Isolation ────────────────────────────────────── -->
+    <h2>Isolation</h2>
+
+    <p>
+      IsolateGPT by Wu et al., 2025 borrows a concept from operating systems and web browsers like Chrome and breaks the system into two isolated layers: [4]
+    </p>
+
+    <p>The Hub (The Trustworthy Core): This acts as the "kernel." It intercepts your queries, decides which apps are needed, manages global memory, and coordinates everything via a strict, non-LLM "operator" to prevent prompt injection at the system level.</p>
+
+    <p>The Spokes (Isolated Environments): Every single third-party app is isolated into its own separate process (a "spoke"). Crucially, each app gets its own dedicated LLM instance and a strictly sandboxed memory space. An app cannot see or tamper with the data or instructions of another app.</p>
+
+    <p>
+      If you're interested in deterministic defenses, read Arnav's writeups on <a href="post-3.html">CaMeL</a> and <a href="post-5.html">DRIFT</a>.
+    </p>
+
+    <!-- ── SECTION: Graphs ───────────────────────────────────────── -->
+    <h2>Graphs</h2>
+
+    <p>
+      AgentArmor by Wang et al., 2025 addresses prompt injection via control flow graphs (CFGs). [7]
+      Its architecture looks like this:
+    </p>
+
+    <p>[Runtime Trace Captured] -&gt; [Graph Constructor] -&gt; [Property Registry] -&gt; [Graph Inspector]</p>
+
+    <p>
+      AgentArmor hooks into the agent pipeline to record messages between the user, model, and tools. It then generates a graph of instruction and data flow based on a trace from the system being used, and generates a unified Program Dependence Graph (PDG) that combines a Control Flow Graph (CFG) and a Data Flow Graph (DFG).
+    </p>
+
+    <p>
+      The property registry assigns security properties to each node via a formal type system including a level (e.g., Low, Mid, High) and a rule type for logical security constraints.
+    </p>
+
+    <p>
+      Predefined nodes get explicit assignments (e.g., a trusted user prompt is marked as High Integrity). Dynamic execution nodes (like an observation read from a third-party website) have their types systematically inferred across security lattices.
+    </p>
+
+    <p>
+      The graph inspector traverses the annotated graph and if a tool call parameter (like a transaction command) depends on a data or control edge traced back to a low-integrity source, the inspector instantly blocks the tool call from firing.
+    </p>
+
+    <!-- ── SECTION: What's next? ─────────────────────────────────── -->
+    <h2>What's next?</h2>
+
+    <p>The next wave of agentic security tools is generally in this space:</p>
+
+    <p>Multi-Agent Systems: current tools focus on one LLM interacting with multiple tools, not the interactions between agents.</p>
+
+    <p>User Skepticism: these tools assume the user is trusted. Separately, translating that trusted intent into precise, enforceable security policies remains an open problem.</p>
+
+    <p>Dual-LLM Compute Cost: approaches like FIDES route untrusted data through a separate, quarantined LLM rather than the main planning model. Running multiple LLM instances is computationally heavy.</p>
+
+    <p>DevTools: these tools are often proof-of-concept. Libraries, SDKs, middleware, etc. could accelerate developer and enterprise adoption.</p>
+
+    <p>Policy generation is manual and brittle: over-allowing defeats the purpose of security but under-allowing breaks functionality. Devs also often don't have the time to write security specs themselves. Automation could help.</p>
+
+    <p>
+      One view is that the fundamental problem to move past is that textual inputs are not deterministic, and using LLMs to turn text into pre-defined workflows is kicking the can down the road. Others argue that runtime enforcement (as in the CFG-based approaches above) can compensate for this non-determinism without requiring fully structured inputs. The debate is ongoing.
+    </p>
+
+    <!-- ── REFERENCES ─────────────────────────────────────────────── -->
+    <h2>References</h2>
+
+    <p>[1] D. E. Denning and P. J. Denning, "Certification of Programs for Secure Information Flow," <em>Communications of the ACM</em>, vol. 20, no. 7, pp. 504–513, Jul. 1977.</p>
+
+    <p>[2] M. Costa, B. Köpf, A. Kolluri, A. Paverd, M. Russinovich, A. Salem, S. Tople, L. Wutschitz, and S. Zanella-Béguelin, "Securing AI Agents with Information-Flow Control," arXiv preprint arXiv:2505.23643, 2025. [Online]. Available: <a href="https://arxiv.org/abs/2505.23643" target="_blank" rel="noopener noreferrer">https://arxiv.org/abs/2505.23643</a></p>
+
+    <p>[3] F. Wu, E. Cecchetti, and C. Xiao, "System-Level Defense against Indirect Prompt Injection Attacks: An Information Flow Control Perspective," arXiv preprint arXiv:2409.19091, 2024. [Online]. Available: <a href="https://arxiv.org/abs/2409.19091" target="_blank" rel="noopener noreferrer">https://arxiv.org/abs/2409.19091</a></p>
+
+    <p>[4] Y. Wu, F. Roesner, T. Kohno, N. Zhang, and U. Iqbal, "IsolateGPT: An Execution Isolation Architecture for LLM-Based Agentic Systems," in <em>Proceedings of the Network and Distributed System Security (NDSS) Symposium 2025</em>, 2025. [Online]. Available: <a href="https://arxiv.org/abs/2403.04960" target="_blank" rel="noopener noreferrer">https://arxiv.org/abs/2403.04960</a></p>
+
+    <p>[5] E. Debenedetti, I. Shumailov, T. Fan, J. Hayes, N. Carlini, D. Fabian, C. Kern, C. Shi, A. Terzis, and F. Tramèr, "Defeating Prompt Injections by Design," arXiv preprint arXiv:2503.18813, 2025. [Online]. Available: <a href="https://arxiv.org/abs/2503.18813" target="_blank" rel="noopener noreferrer">https://arxiv.org/abs/2503.18813</a></p>
+
+    <p>[6] H. Li, X. Liu, H.-C. Chiu, D. Li, N. Zhang, and C. Xiao, "DRIFT: Dynamic Rule-Based Defense with Injection Isolation for Securing LLM Agents," in <em>Proceedings of the 39th Conference on Neural Information Processing Systems (NeurIPS 2025)</em>, 2025. [Online]. Available: <a href="https://arxiv.org/abs/2506.12104" target="_blank" rel="noopener noreferrer">https://arxiv.org/abs/2506.12104</a></p>
+
+    <p>[7] P. Wang, Y. Liu, Y. Lu, Y. Cai, H. Chen, Q. Yang, J. Zhang, J. Hong, and Y. Wu, "AgentArmor: Enforcing Program Analysis on Agent Runtime Trace to Defend Against Prompt Injection," arXiv preprint arXiv:2508.01249, 2025. [Online]. Available: <a href="https://arxiv.org/abs/2508.01249" target="_blank" rel="noopener noreferrer">https://arxiv.org/abs/2508.01249</a></p>
+
+  </article>
+
+  <section id="behuve-comments" data-slug="post-6"></section>
+  <script src="comments.js"></script>
+
+  <div class="post-footer">
+    <a href="../index.html">← All posts</a>
+    <span style="font-family: var(--font-mono); font-size: 11px; color: var(--text-dim);">
+      June 16, 2026 · Behuve
+    </span>
+  </div>
+
+</main>
+
+<footer>
+  <span>Behuve</span>
+  <span>© 2025</span>
+</footer>
+
+</body>
+</html>

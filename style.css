@@ -62,13 +62,22 @@ nav.scrolled {
 
 .nav-logo {
   font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 400;
+  font-size: 22px;
+  font-weight: 700;
   letter-spacing: 0.06em;
   color: var(--text);
   transition: color 0.2s;
+  display: flex;
+  align-items: center;
 }
 .nav-logo:hover { color: var(--accent); }
+
+.nav-icon {
+  height: 22px;
+  width: auto;
+  margin-right: 8px;
+  display: inline-block;
+}
 
 .nav-links {
   display: flex;
@@ -78,7 +87,7 @@ nav.scrolled {
 
 .nav-links a {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 13px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--text-muted);
@@ -90,8 +99,8 @@ nav.scrolled {
    HERO
    ============================================================ */
 .hero {
-  height: 100vh;
-  min-height: 600px;
+  height: 50vh;
+  min-height: 320px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -99,7 +108,9 @@ nav.scrolled {
   padding: 0 var(--pad);
   background:
     radial-gradient(ellipse 110% 85% at 50% -5%, rgba(37, 99, 235, 0.34) 0%, rgba(37, 99, 235, 0.13) 50%, transparent 75%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='52' height='90'%3E%3Cpolygon fill='none' stroke='rgba(37,99,235,0.25)' stroke-width='1' points='26,0 52,15 52,45 26,60 0,45 0,15'/%3E%3Cpolygon fill='none' stroke='rgba(37,99,235,0.25)' stroke-width='1' points='0,45 26,60 26,90 0,105 -26,90 -26,60'/%3E%3Cpolygon fill='none' stroke='rgba(37,99,235,0.25)' stroke-width='1' points='52,45 78,60 78,90 52,105 26,90 26,60'/%3E%3C/svg%3E"),
     var(--bg);
+  background-size: auto, 52px 90px, auto;
 }
 
 .hero-content {
@@ -107,21 +118,22 @@ nav.scrolled {
 }
 
 .hero-headline {
-  font-size: clamp(36px, 5vw, 72px);
-  font-weight: 500;
+  font-family: 'Righteous', var(--font-sans);
+  font-size: clamp(24px, 3vw, 48px);
+  font-weight: 400;
   line-height: 1.1;
   letter-spacing: -0.025em;
   color: var(--text);
-  margin-bottom: 20px;
+  margin-bottom: 12px;
   opacity: 0;
   animation: fadeUp 0.8s 0.2s forwards;
 }
 
 .hero-sub {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 300;
   color: var(--text-muted);
-  margin-bottom: 20px;
+  margin-bottom: 12px;
   opacity: 0;
   animation: fadeUp 0.8s 0.4s forwards;
 }
@@ -443,8 +455,8 @@ footer {
   align-items: center;
   gap: 10px;
   font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--text-dim);
+  font-size: 15px;
+  color: var(--text-muted);
   flex-wrap: wrap;
 }
 
