@@ -11,6 +11,13 @@
 
   root.innerHTML = `
     <section class="comments-section">
+      <div class="callout">
+        <strong>A note from us:</strong> Thanks so much for taking the time to read this post!
+        In the spirit of open research, we want to avoid spreading incorrect information.
+        If you find anything that is incorrect, outdated, or misleadingly framed, please let us know.
+        We will do our best to make corrections quickly and give proper credit to anyone who helps improve this work.
+        Thank you for helping keep this project accurate and accountable!
+      </div>
       <h2 class="comments-heading">Comments</h2>
       <div class="comments-auth" data-auth></div>
       <div class="comments-list" data-list>

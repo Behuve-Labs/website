@@ -740,3 +740,32 @@ footer a:hover { color: var(--accent); }
   .founders { gap: 16px; }
   .comments-form-row { flex-direction: column; align-items: flex-start; gap: 10px; }
 }
+
+/* ── TABLE OF CONTENTS ── */
+.toc {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  right: calc(50% + 368px);
+  width: 200px;
+  display: none;
+}
+
+.toc a {
+  display: block;
+  padding: 4px 0;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  text-align: left;
+  color: var(--text-dim);
+  text-decoration: none;
+  transition: color 120ms;
+}
+
+.toc a:hover { color: var(--accent); }
+.toc a.toc-active { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+
+@media (min-width: 1160px) {
+  .toc { display: block; }
+}
