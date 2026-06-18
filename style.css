@@ -771,6 +771,29 @@ footer a:hover { color: var(--accent); }
   .tool-code-pair { grid-template-columns: 1fr; }
   .post-grid { grid-template-columns: 1fr; }
   .hero { padding: 100px 24px 64px; }
+  .section-label { margin-bottom: 28px; }
+  .post-card-body { padding: 20px; }
+  .tool-code-block { padding: 20px; }
+  .hero-eyebrow { font-size: 11px; margin-bottom: 12px; }
+  .hero-sub { font-size: 14px; margin-bottom: 20px; }
+  .hero-terminal { padding: 16px 14px; margin-bottom: 20px; }
+  .hero-terminal-pre { font-size: 11px; line-height: 1.65; }
+  .hero-cta-install { padding: 9px 16px; margin-bottom: 16px; }
+  .hero-cta-install code { font-size: 13px; }
+  .hero-bottom-links { font-size: 12px; gap: 12px; }
+  .tool-pre { font-size: 11px; line-height: 1.65; }
+  .tool-code-block--solo { margin-bottom: 24px; }
+  .tool-modes { margin-bottom: 20px; }
+  .tool-mode { padding: 12px 0; gap: 16px; }
+  .tool-mode-name { font-size: 12px; }
+  .tool-mode-desc { font-size: 14px; }
+  .tool-caveat { font-size: 12px; margin-bottom: 20px; }
+  .tool-links { gap: 16px; }
+  .tool-links a { font-size: 12px; }
+}
+
+@media (max-width: 480px) {
+  section { padding: 48px 20px; }
 }
 
 @media (max-width: 400px) {
