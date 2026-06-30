@@ -18,14 +18,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: npm
-
-      - name: Install dependencies
-        run: npm ci
+      # No Node/npm setup: the site is static HTML/CSS/JS and the Pages
+      # Functions have zero npm dependencies (all imports are relative .js).
+      # cloudflare/wrangler-action installs its own pinned wrangler and
+      # bundles the functions/ directory during `pages deploy`.
 
       - name: Check secrets are present
         env:
