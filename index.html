@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>agent-sleuth — by Behuve</title>
+  <title>Behuve | Agent Security Lab</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Righteous&family=Geist:wght@300;400;500&family=Geist+Mono:wght@300;400&display=swap" rel="stylesheet" />
@@ -23,36 +23,78 @@
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-content">
-    <p class="hero-eyebrow">AGENT-SLEUTH</p>
-    <h1 class="hero-headline">Catch prompt injection<br>before your agent acts on it.</h1>
-    <p class="hero-sub">Three lines. Works on your existing agent. Zero dependencies.</p>
-    <div class="hero-terminal">
-      <pre class="hero-terminal-pre"><span class="hl-warn">WOULD BLOCK:</span> send_email() called with tainted inputs
-  <span class="hl-key">Taint source:</span> fetch_url (step 2, untrusted)
-  <span class="hl-key">Injected value detected in argument:</span> to=<span class="hl-val">"attacker@evil.com"</span>
-  <span class="hl-key">Lineage:</span> fetch_url (step 2) → value <span class="hl-val">"attacker@evil.com"</span> → send_email.to
-  <span class="hl-key">Destination:</span> <span class="hl-val">attacker@evil.com</span> (not allowlisted)
-  <span class="hl-key">Reason:</span> untrusted-origin value reached a consequential sink
-  <span class="hl-key">Action:</span> logged (audit mode), call allowed</pre>
+  <div class="hero-top">
+    <div class="hero-brand reveal">
+      <p class="hero-eyebrow">AGENT SECURITY LAB</p>
+      <h1 class="hero-headline">Security research for autonomous agents.</h1>
+      <p class="hero-sub">We study how agents get compromised, publish what we find, and build tools that limit the blast radius.</p>
+      <a class="hero-cta" href="#research">Read the research →</a>
     </div>
-    <div class="hero-cta-install">
-      <code>pip install agent_sleuth</code>
-    </div>
-    <div class="hero-bottom-links">
-      <a href="https://pypi.org/project/agent-sleuth/" target="_blank" rel="noopener">PyPI ↗</a>
-      <span class="hero-bottom-sep">·</span>
-      <a href="#research">Read the research ↓</a>
+
+    <div class="hero-product reveal">
+      <a class="hero-product-link" href="#agent-sleuth" aria-label="Jump to the agent-sleuth section"></a>
+      <p class="hero-product-label">Featured project</p>
+      <p class="hero-product-name">agent-sleuth</p>
+      <p class="hero-product-install">$ pip install agent_sleuth</p>
+      <div class="hero-product-badges">
+        <a class="hero-badge" href="https://pypi.org/project/agent-sleuth/" target="_blank" rel="noopener">PyPI · v0.1.0</a>
+        <span class="hero-badge">MIT</span>
+        <a class="hero-badge" href="https://github.com/Behuve-Labs/agent-sleuth" target="_blank" rel="noopener">GitHub ↗</a>
+      </div>
     </div>
   </div>
 </section>
 
-<section id="product">
-  <p class="section-label">How it works</p>
+<section id="agent-sleuth">
+  <p class="section-label">agent-sleuth</p>
 
-  <div class="tool-code-block tool-code-block--solo reveal">
-    <p class="tool-code-label">Wrap your agent in three lines</p>
-    <pre class="tool-pre"><span class="hl-kw">from</span> <span class="hl-cls">agent_sleuth</span> <span class="hl-kw">import</span> <span class="hl-cls">Sleuth</span>
+  <p class="tool-modes-plain reveal">Catches verbatim injection and structured exfiltration. It runs in two modes: audit, which only logs what would have been blocked, and enforce, which blocks it for real.</p>
+
+  <div class="hero-bench reveal">
+    <p class="hero-bench-label">Attack Success Rate (AgentDojo Benchmark)</p>
+    <div class="bench-legend">
+      <span class="bench-legend-item"><span class="bench-swatch bench-swatch--before"></span>Without agent-sleuth</span>
+      <span class="bench-legend-item"><span class="bench-swatch bench-swatch--after"></span>With agent-sleuth</span>
+    </div>
+    <div class="bench-row">
+      <span class="bench-suite">workspace</span>
+      <div class="bench-track">
+        <div class="bench-bar bench-bar--before" style="width: 47%"></div>
+        <div class="bench-bar bench-bar--after" style="width: 13%"></div>
+      </div>
+      <span class="bench-num">33% → 9%</span>
+    </div>
+    <div class="bench-row">
+      <span class="bench-suite">banking</span>
+      <div class="bench-track">
+        <div class="bench-bar bench-bar--before" style="width: 66%"></div>
+        <div class="bench-bar bench-bar--after" style="width: 11%"></div>
+      </div>
+      <span class="bench-num">46% → 8%</span>
+    </div>
+    <div class="bench-row">
+      <span class="bench-suite">slack</span>
+      <div class="bench-track">
+        <div class="bench-bar bench-bar--before" style="width: 93%"></div>
+        <div class="bench-bar bench-bar--after" style="width: 66%"></div>
+      </div>
+      <span class="bench-num">65% → 46%</span>
+    </div>
+    <div class="bench-row">
+      <span class="bench-suite">travel</span>
+      <div class="bench-track">
+        <div class="bench-bar bench-bar--before" style="width: 53%"></div>
+        <div class="bench-bar bench-bar--after" style="width: 30%"></div>
+      </div>
+      <span class="bench-num">37% → 21%</span>
+    </div>
+    <p class="hero-bench-note">Backbone: gpt-4o-mini-2024-07-18 · v1</p>
+  </div>
+
+  <div class="tool-code-pair reveal">
+    <div class="tool-code-block tool-code-block--output">
+      <p class="tool-code-label">Wrap your agent in three lines</p>
+      <pre class="tool-pre"><span class="hl-kw">from</span> <span class="hl-cls">agent_sleuth</span> <span class="hl-kw">import</span> <span class="hl-cls">Sleuth</span>
 
 sleuth = <span class="hl-cls">Sleuth</span>(mode=<span class="hl-str">"audit"</span>)  <span class="hl-cmt"># zero config</span>
 sleuth.reset(query=<span class="hl-str">"Summarize the news and email it to me@myco.com"</span>)
@@ -63,104 +105,97 @@ send_email = sleuth.track(send_email)
 <span class="hl-cmt"># ... run your agent as normal ...</span>
 
 print(sleuth.report())</pre>
-  </div>
-
-  <div class="tool-modes reveal">
-    <div class="tool-mode">
-      <span class="tool-mode-name">audit</span>
-      <span class="tool-mode-desc">Nothing blocked yet. Logs traces of exactly what would have been caught.</span>
     </div>
-    <div class="tool-mode">
-      <span class="tool-mode-name">enforce</span>
-      <span class="tool-mode-desc">Block for real. Switch one line; that call never goes out.</span>
+    <div class="tool-code-block tool-code-block--output">
+      <p class="tool-code-label">Blocked, in enforce mode</p>
+      <pre class="tool-pre tool-pre--terminal"><span class="hl-warn">BLOCKED:</span> send_email() called with tainted inputs
+  <span class="hl-key">Taint source:</span> read_email (step 2, untrusted)
+  <span class="hl-key">Injected value in argument:</span> to=<span class="hl-val">"attacker@evil.com"</span>
+  <span class="hl-key">Lineage:</span> read_email → <span class="hl-val">"attacker@evil.com"</span> → send_email.to
+  <span class="hl-key">Destination:</span> <span class="hl-val">attacker@evil.com</span> (not allowlisted)
+  <span class="hl-key">Reason:</span> untrusted value reached a consequential sink
+  <span class="hl-key">Action:</span> blocked (mode=enforce)</pre>
     </div>
-  </div>
-
-  <p class="tool-caveat reveal">Catches verbatim injection and structured exfiltration.</p>
-
-  <div class="tool-links reveal">
-    <a href="https://pypi.org/project/agent-sleuth/" target="_blank" rel="noopener">PyPI ↗</a>
-    <a href="https://github.com/Behuve-Labs/agent-sleuth" target="_blank" rel="noopener">GitHub ↗</a>
   </div>
 </section>
 
 <section id="research">
   <p class="section-label">Research</p>
 
-  <div class="post-grid">
+  <div class="post-list">
 
-    <a class="post-card reveal" href="posts/post-6.html">
-      <img class="post-card-img" src="assets/post-6/post6.png" alt="Control-flow integrity diagram" />
-      <div class="post-card-body">
-        <span class="post-card-title">Review of Control-Flow Integrity Solutions for Agents</span>
-        <span class="post-card-date">June 16, 2026 · Noah Wong</span>
-        <span class="post-card-desc">In 1977, Denning &amp; Denning published Certification of Programs for Secure Information Flow, which laid out the Lattice Model of Information Flow. Essentially, each piece of data was given a security class...</span>
-        <div class="post-card-tags">
+    <a class="post-row reveal" href="posts/post-6.html">
+      <img class="post-row-img" src="assets/post-6/post6.png" alt="Control-flow integrity diagram" />
+      <div class="post-row-body">
+        <span class="post-row-title">Review of Control-Flow Integrity Solutions for Agents</span>
+        <span class="post-row-date">June 16, 2026 · Noah Wong</span>
+        <span class="post-row-desc">In 1977, Denning &amp; Denning published Certification of Programs for Secure Information Flow, which laid out the Lattice Model of Information Flow. Essentially, each piece of data was given a security class...</span>
+        <div class="post-row-tags">
           <span class="post-tag">security</span>
           <span class="post-tag">agents</span>
         </div>
       </div>
     </a>
 
-    <a class="post-card reveal" href="posts/post-5.html">
-      <img class="post-card-img" src="assets/post-5/drift.png" alt="DRIFT architecture diagram" />
-      <div class="post-card-body">
-        <span class="post-card-title">Dynamic Plan Validation and Injection Isolation Against Prompt Injection</span>
-        <span class="post-card-date">June 11, 2026 · Arnav Tripathy</span>
-        <span class="post-card-desc">CaMeL, despite its thoroughness, has been shown to be incredibly expensive to implement on a large scale. Another problem that I didn't foresee until reading about DRIFT was the inflexibility of the system; security policies were static, unmoving...</span>
-        <div class="post-card-tags">
+    <a class="post-row reveal" href="posts/post-5.html">
+      <img class="post-row-img" src="assets/post-5/drift.png" alt="DRIFT architecture diagram" />
+      <div class="post-row-body">
+        <span class="post-row-title">Dynamic Plan Validation and Injection Isolation Against Prompt Injection</span>
+        <span class="post-row-date">June 11, 2026 · Arnav Tripathy</span>
+        <span class="post-row-desc">CaMeL, despite its thoroughness, has been shown to be incredibly expensive to implement on a large scale. Another problem that I didn't foresee until reading about DRIFT was the inflexibility of the system; security policies were static, unmoving...</span>
+        <div class="post-row-tags">
           <span class="post-tag">security</span>
           <span class="post-tag">agents</span>
         </div>
       </div>
     </a>
 
-    <a class="post-card reveal" href="posts/post-4.html">
-      <img class="post-card-img" src="assets/post-4/agentdojo.png" alt="AgentDojo benchmark diagram" />
-      <div class="post-card-body">
-        <span class="post-card-title">Architectural Separation of Instruction and Data States in Agent Frameworks</span>
-        <span class="post-card-date">June 9, 2026 · Noah Wong</span>
-        <span class="post-card-desc">In Von Neumann computer architecture, instructions and data were the same thing: bits. Instructions and data were together in memory, and there was no architectural distinction. Developed during the same era, the Harvard computer architecture separated instruction...</span>
-        <div class="post-card-tags">
+    <a class="post-row reveal" href="posts/post-4.html">
+      <img class="post-row-img" src="assets/post-4/agentdojo.png" alt="AgentDojo benchmark diagram" />
+      <div class="post-row-body">
+        <span class="post-row-title">Architectural Separation of Instruction and Data States in Agent Frameworks</span>
+        <span class="post-row-date">June 9, 2026 · Noah Wong</span>
+        <span class="post-row-desc">In Von Neumann computer architecture, instructions and data were the same thing: bits. Instructions and data were together in memory, and there was no architectural distinction. Developed during the same era, the Harvard computer architecture separated instruction...</span>
+        <div class="post-row-tags">
           <span class="post-tag">security</span>
           <span class="post-tag">agents</span>
         </div>
       </div>
     </a>
 
-    <a class="post-card reveal" href="posts/post-3.html">
-      <img class="post-card-img" src="assets/post-3/camel.png" alt="CaMeL architecture diagram" />
-      <div class="post-card-body">
-        <span class="post-card-title">Capability-Based Data Flow Enforcement Against Prompt Injection</span>
-        <span class="post-card-date">June 9, 2026 · Arnav Tripathy</span>
-        <span class="post-card-desc">The release of Anthropic's Fable 5 is interesting in that it doesn't let the powerful model handle all the tasks on its own; for topics like cybersecurity or biology, where "state-of-the-art" knowledge could be misused, Fable automatically hands off queries to the weaker Opus 4.8...</span>
-        <div class="post-card-tags">
+    <a class="post-row reveal" href="posts/post-3.html">
+      <img class="post-row-img" src="assets/post-3/camel.png" alt="CaMeL architecture diagram" />
+      <div class="post-row-body">
+        <span class="post-row-title">Capability-Based Data Flow Enforcement Against Prompt Injection</span>
+        <span class="post-row-date">June 9, 2026 · Arnav Tripathy</span>
+        <span class="post-row-desc">The release of Anthropic's Fable 5 is interesting in that it doesn't let the powerful model handle all the tasks on its own; for topics like cybersecurity or biology, where "state-of-the-art" knowledge could be misused, Fable automatically hands off queries to the weaker Opus 4.8...</span>
+        <div class="post-row-tags">
           <span class="post-tag">security</span>
           <span class="post-tag">agents</span>
         </div>
       </div>
     </a>
 
-    <a class="post-card reveal" href="posts/post-2.html">
-      <img class="post-card-img" src="assets/post-2/syscalls.png" alt="Syscall filtering diagram" />
-      <div class="post-card-body">
-        <span class="post-card-title">Mitigating Post-Exploitation Scope Through Syscall Filtering</span>
-        <span class="post-card-date">May 25, 2026 · Noah Wong</span>
-        <span class="post-card-desc">Post-exploitation, from a defensive perspective, involves limiting attackers' access to program resources. The threat model assumes that a program is exploitable, but that the attacker's post-exploitation strategy requires additional resources within the program...</span>
-        <div class="post-card-tags">
+    <a class="post-row reveal" href="posts/post-2.html">
+      <img class="post-row-img" src="assets/post-2/syscalls.png" alt="Syscall filtering diagram" />
+      <div class="post-row-body">
+        <span class="post-row-title">Mitigating Post-Exploitation Scope Through Syscall Filtering</span>
+        <span class="post-row-date">May 25, 2026 · Noah Wong</span>
+        <span class="post-row-desc">Post-exploitation, from a defensive perspective, involves limiting attackers' access to program resources. The threat model assumes that a program is exploitable, but that the attacker's post-exploitation strategy requires additional resources within the program...</span>
+        <div class="post-row-tags">
           <span class="post-tag">security</span>
           <span class="post-tag">systems</span>
         </div>
       </div>
     </a>
 
-    <a class="post-card reveal" href="posts/post-1.html">
-      <img class="post-card-img" src="assets/post-1/browser.png" alt="Chrome browser architecture diagram" />
-      <div class="post-card-body">
-        <span class="post-card-title">Chrome's Security Architecture: Renderer Trust and the Same-Origin Policy</span>
-        <span class="post-card-date">May 17, 2026 · Noah Wong</span>
-        <span class="post-card-desc">Chromium's architecture was designed to protect a user's OS from malicious websites. It is not designed to protect websites from each other. For example, if attacker.com compromises the rendering engine, they can ask the browser kernel for bank.com's data and receive it...</span>
-        <div class="post-card-tags">
+    <a class="post-row reveal" href="posts/post-1.html">
+      <img class="post-row-img" src="assets/post-1/browser.png" alt="Chrome browser architecture diagram" />
+      <div class="post-row-body">
+        <span class="post-row-title">Chrome's Security Architecture: Renderer Trust and the Same-Origin Policy</span>
+        <span class="post-row-date">May 17, 2026 · Noah Wong</span>
+        <span class="post-row-desc">Chromium's architecture was designed to protect a user's OS from malicious websites. It is not designed to protect websites from each other. For example, if attacker.com compromises the rendering engine, they can ask the browser kernel for bank.com's data and receive it...</span>
+        <div class="post-row-tags">
           <span class="post-tag">security</span>
           <span class="post-tag">web</span>
         </div>
