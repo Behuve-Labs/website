@@ -48,6 +48,33 @@
 <section id="agent-sleuth">
   <p class="section-label">agent-sleuth</p>
 
+  <div class="tool-code-pair reveal">
+    <div class="tool-code-block tool-code-block--output">
+      <p class="tool-code-label">Wrap your agent in three lines</p>
+      <pre class="tool-pre"><span class="hl-kw">from</span> <span class="hl-cls">agent_sleuth</span> <span class="hl-kw">import</span> <span class="hl-cls">Sleuth</span>
+
+sleuth = <span class="hl-cls">Sleuth</span>(mode=<span class="hl-str">"audit"</span>)  <span class="hl-cmt"># zero config</span>
+sleuth.reset(query=<span class="hl-str">"Summarize the news and email it to me@myco.com"</span>)
+
+fetch_url  = sleuth.track(fetch_url)
+send_email = sleuth.track(send_email)
+
+<span class="hl-cmt"># ... run your agent as normal ...</span>
+
+print(sleuth.report())</pre>
+    </div>
+    <div class="tool-code-block tool-code-block--output">
+      <p class="tool-code-label">Blocked, in enforce mode</p>
+      <pre class="tool-pre tool-pre--terminal"><span class="hl-warn">BLOCKED:</span> send_email() called with tainted inputs
+  <span class="hl-key">Taint source:</span> read_email (step 2, untrusted)
+  <span class="hl-key">Injected value in argument:</span> to=<span class="hl-val">"attacker@evil.com"</span>
+  <span class="hl-key">Lineage:</span> read_email → <span class="hl-val">"attacker@evil.com"</span> → send_email.to
+  <span class="hl-key">Destination:</span> <span class="hl-val">attacker@evil.com</span> (not allowlisted)
+  <span class="hl-key">Reason:</span> untrusted value reached a consequential sink
+  <span class="hl-key">Action:</span> blocked (mode=enforce)</pre>
+    </div>
+  </div>
+
   <p class="tool-modes-plain reveal">Catches verbatim injection and structured exfiltration. It runs in two modes: audit, which only logs what would have been blocked, and enforce, which blocks it for real.</p>
 
   <div class="hero-bench reveal">
@@ -89,33 +116,6 @@
       <span class="bench-num">37% → 21%</span>
     </div>
     <p class="hero-bench-note">Backbone: gpt-4o-mini-2024-07-18 · v1</p>
-  </div>
-
-  <div class="tool-code-pair reveal">
-    <div class="tool-code-block tool-code-block--output">
-      <p class="tool-code-label">Wrap your agent in three lines</p>
-      <pre class="tool-pre"><span class="hl-kw">from</span> <span class="hl-cls">agent_sleuth</span> <span class="hl-kw">import</span> <span class="hl-cls">Sleuth</span>
-
-sleuth = <span class="hl-cls">Sleuth</span>(mode=<span class="hl-str">"audit"</span>)  <span class="hl-cmt"># zero config</span>
-sleuth.reset(query=<span class="hl-str">"Summarize the news and email it to me@myco.com"</span>)
-
-fetch_url  = sleuth.track(fetch_url)
-send_email = sleuth.track(send_email)
-
-<span class="hl-cmt"># ... run your agent as normal ...</span>
-
-print(sleuth.report())</pre>
-    </div>
-    <div class="tool-code-block tool-code-block--output">
-      <p class="tool-code-label">Blocked, in enforce mode</p>
-      <pre class="tool-pre tool-pre--terminal"><span class="hl-warn">BLOCKED:</span> send_email() called with tainted inputs
-  <span class="hl-key">Taint source:</span> read_email (step 2, untrusted)
-  <span class="hl-key">Injected value in argument:</span> to=<span class="hl-val">"attacker@evil.com"</span>
-  <span class="hl-key">Lineage:</span> read_email → <span class="hl-val">"attacker@evil.com"</span> → send_email.to
-  <span class="hl-key">Destination:</span> <span class="hl-val">attacker@evil.com</span> (not allowlisted)
-  <span class="hl-key">Reason:</span> untrusted value reached a consequential sink
-  <span class="hl-key">Action:</span> blocked (mode=enforce)</pre>
-    </div>
   </div>
 </section>
 

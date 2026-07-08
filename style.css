@@ -49,7 +49,7 @@ nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 24px var(--pad);
+  padding: 24px clamp(24px, 6vw, 80px);
   background: transparent;
   transition: background 0.3s, border-color 0.3s;
   border-bottom: 1px solid transparent;
@@ -101,21 +101,21 @@ nav.scrolled {
    HERO
    ============================================================ */
 .hero {
-  padding: 140px var(--pad) 48px;
-  background: var(--bg);
+  padding: 168px clamp(24px, 6vw, 80px) 104px;
+  background: radial-gradient(ellipse 1100px 500px at 15% -15%, rgba(37, 99, 235, 0.14), transparent 65%), var(--bg);
 }
 
 .hero-top {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
-  gap: 48px;
-  max-width: var(--max);
+  gap: 72px;
+  max-width: 1280px;
   margin: 0 auto;
 }
 
 .hero-brand {
-  max-width: 560px;
+  max-width: 680px;
   min-width: 0;
 }
 
@@ -130,9 +130,9 @@ nav.scrolled {
 
 .hero-headline {
   font-family: 'Righteous', var(--font-sans);
-  font-size: clamp(28px, 4vw, 44px);
+  font-size: clamp(34px, 5vw, 68px);
   font-weight: 400;
-  line-height: 1.15;
+  line-height: 1.08;
   letter-spacing: -0.02em;
   color: var(--text);
   margin-bottom: 16px;
@@ -163,7 +163,7 @@ nav.scrolled {
 .hero-product {
   position: relative;
   flex-shrink: 0;
-  width: 340px;
+  width: 480px;
   border: 1px solid var(--border);
   padding: 24px;
   transition: border-color 0.2s;
