@@ -1,0 +1,22 @@
+# Cache policy for Cloudflare Pages.
+#
+# style.css, post-style.css and main.js use stable filenames (no content hash),
+# so every deploy reuses the same URLs. Without this, a browser can keep an old
+# cached stylesheet and apply it to freshly deployed HTML -> broken layout.
+#
+# Force browsers to revalidate HTML/CSS/JS on each load. The ETag makes an
+# unchanged file a cheap 304 Not Modified (no re-download); a changed file is
+# always re-fetched. Result: no stale-CSS-vs-new-HTML mismatch, ever.
+
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/*.css
+  Cache-Control: public, max-age=0, must-revalidate
+
+/*.js
+  Cache-Control: public, max-age=0, must-revalidate
+
+# Homepage is served from "/", which doesn't end in .html.
+/
+  Cache-Control: public, max-age=0, must-revalidate
